@@ -97,7 +97,7 @@
 
     <h1>Atmosfear</h1>
     <div class="subtitle">Le Seigneur des Clés – Pioche Interdite</div>
-    <div class="chrono-note">⏱️ Réglez un chrono de 60 min. Piochez une carte <strong>Temps</strong> à chaque minute indiquée.</div>
+    <div class="chrono-note">⏱️ Le temps s'écoule de 0 à 60 min. Piochez une carte <strong>Temps</strong> quand le chrono atteint la minute indiquée.</div>
 
     <div class="selector">
         <label><input type="radio" name="cardType" value="temps" checked><span>⏳ Temps</span></label>
@@ -111,7 +111,6 @@
         <div class="card-text">Choisissez un type et piochez...</div>
     </div>
 
-    <!-- Zone pour les boutons Pile/Face ou Cacher -->
     <div id="actionArea" style="text-align:center;"></div>
 
     <div class="counters">
@@ -128,43 +127,46 @@
     <div class="footer">Atmosphère, cris et clés perdues garantis.</div>
 
     <script>
-        // =================== CARTES ===================
+        // =================== CARTES TEMPS (minutes 0 à 60) ===================
         const tempsCards = [
-            { minute: "58", text: "Défi : Criez le plus fort possible. Si quelqu’un sursaute, gagnez 1 Clé." },
-            { minute: "54", text: "Défi : Criez une phrase terrifiante. Si personne ne rit, gagnez 1 Clé. Si on rit, vous perdez 1 Clé." },
-            { minute: "50", text: "Défi : Frappez trois coups sous la table. Le dernier à regarder perd 1 Clé, vous gagnez 1 Clé." },
-            { minute: "47", text: "Défi : Fixez quelqu’un sans parler. Le premier qui parle ou détourne les yeux vous donne 1 Clé." },
-            { minute: "44", text: "Défi : Lancez un dé et mimez le Seigneur. Si quelqu’un éclate de rire, gagnez 2 Clés." },
-            { minute: "41", text: "Défi : Silence de mort jusqu’à la prochaine carte Temps. Si personne ne parle, gagnez 2 Clés. Un contrevenant vous fait perdre 1 Clé." },
-            { minute: "38", text: "Défi : Tapez dans vos mains. Tous doivent imiter. Le plus lent vous donne 1 Clé." },
-            { minute: "35", text: "Défi : Parlez avec une voix de monstre pendant 2 min. Chaque oubli vous fait perdre 1 Clé. Si vous tenez, gagnez 2 tours." },
-            { minute: "32", text: "Défi : Le joueur le plus proche de la cuisine gagne 2 Clés (vous compris). Si c’est vous, gagnez 3 Clés." },
-            { minute: "30", text: "Défi : Levez-vous. Le dernier debout perd 2 Clés. Si vous restez debout, gagnez 2 Clés." },
-            { minute: "28", text: "Défi : Éteignez la lumière 1 min. Si quelqu’un rallume avant, il perd 3 Clés et vous gagnez 2 Clés." },
-            { minute: "25", text: "Défi : Yeux fermés, désignez un traître. Ce joueur perd 2 Clés. Si vous le désignez correctement (groupe valide), gagnez 3 Clés." },
-            { minute: "22", text: "Défi : Chaise musicale (tous changent de place). Vous restez assis. Le dernier assis perd 2 Clés, vous gagnez 2 Clés." },
-            { minute: "19", text: "Défi : Imitez le cri du Seigneur. Vote du groupe : si vous êtes le plus effrayant, gagnez 3 Clés." },
-            { minute: "16", text: "Défi : Racontez une blague qui fait rire au moins 2 joueurs. Récompense : 2 Clés. Échec : perdez 1 Clé." },
-            { minute: "14", text: "Défi : Comptez de 10 à 1 sans erreur. Si personne ne se trompe (vous y compris), gagnez 2 tours. Si vous vous trompez, perdez 1 Clé." },
-            { minute: "12", text: "Défi : Dites « Je suis le maître des clés ». Les autres répondent « Oui maître ». Le dernier perd 1 Clé, vous gagnez 1 Clé." },
-            { minute: "10", text: "Défi : Fermez les yeux, comptez 10 sec. Les autres cachent un objet. Retrouvez-le en 30 sec. Succès : 3 Clés. Échec : -2 Clés." },
-            { minute: "8", text: "Défi : Avancez votre pion à la case de sortie la plus proche. Vous gagnez 1 Clé, mais donnez 1 Clé au joueur le plus éloigné." },
-            { minute: "6", text: "Défi : Criez tous ensemble. Si un voisin réagit (bruit, toc), vous gagnez 3 Clés, les autres perdent 1 Clé." },
-            { minute: "4", text: "Défi : Regardez fixement les autres d’un air menaçant. Le premier à sourire perd 2 Clés, vous gagnez 2 Clés." },
-            { minute: "2", text: "Défi : Si vous avez moins de 4 Clés, gagnez immédiatement 2 Clés. Sinon, donnez 1 Clé au joueur le plus pauvre." },
-            { minute: "0", text: "Apparition du Seigneur ! Tous les joueurs perdent 2 Clés, sauf ceux dans la Vraie Commune (case safe)." },
-            { minute: "55", text: "Défi : Frappez à la fenêtre. Tout le monde doit se figer 5 sec. Ceux qui bougent perdent 1 Clé, vous gagnez 1 Clé." },
-            { minute: "42", text: "Défi : Faites passer un objet jusqu’à la minute 39. Le détenteur à 39 perd 2 Clés, vous gagnez 2 Clés." },
-            { minute: "33", text: "Défi : Inversez le sens du jeu. Si la majorité l’accepte, gagnez 2 tours. Sinon, perdez 1 Clé." },
-            { minute: "27", text: "Défi : Votez pour le joueur le plus silencieux. Si c’est vous, gagnez 3 Clés. Sinon, gagnez 1 Clé." },
-            { minute: "21", text: "Défi : Cachez une clé dans une main. Les autres pointent. Chaque erreur vous rapporte 1 Clé." },
-            { minute: "17", text: "Défi : Tous ferment les yeux, vous vous déplacez sans bruit. Le premier à vous localiser gagne 1 Clé (pas vous)." },
-            { minute: "13", text: "Défi : Pause figée. Tous immobiles. Le premier qui bouge perd 2 Clés. Vous gagnez 2 Clés s’il y a un fautif." },
-            { minute: "9", text: "Défi : Lancez deux dés. Si vous faites un double, gagnez 2 tours. Sinon, perdez 1 Clé." },
-            { minute: "7", text: "Défi : Lisez cette carte à voix basse. Celui qui dit « Quoi ? » vous donne 2 Clés." },
-            { minute: "5", text: "Défi : Désignez un joueur qui doit ramper vers vous. S’il refuse, il va en prison et vous gagnez 2 Clés." },
-            { minute: "1", text: "Défi : Comptez à rebours 10→1 en groupe. Si personne ne se trompe, gagnez 3 Clés. Sinon, perdez 1 Clé." },
-            { minute: "59", text: "Défi : Lisez le parchemin d’intro. Tous gagnent 1 Clé. Vous gagnez 1 Clé supplémentaire." }
+            // ---------- Minutes 0 à 40 : récompenses en TOURS ----------
+            { minute: "0", text: "Défi : Criez le plus fort possible. Si quelqu’un sursaute, gagnez 1 tour." },
+            { minute: "1", text: "Défi : Lisez le parchemin d’intro. Tous gagnent 1 tour. Vous gagnez 1 tour supplémentaire." },
+            { minute: "2", text: "Défi : Frappez trois coups sous la table. Le dernier à regarder perd 1 tour, vous gagnez 2 tours." },
+            { minute: "4", text: "Défi : Fixez quelqu’un sans parler. Le premier qui parle ou détourne les yeux vous donne 1 tour." },
+            { minute: "6", text: "Défi : Lancez un dé et mimez le Seigneur. Si quelqu’un éclate de rire, gagnez 2 tours." },
+            { minute: "8", text: "Défi : Silence de mort jusqu’à la prochaine carte Temps. Si personne ne parle, gagnez 2 tours. Un contrevenant vous fait perdre 1 tour." },
+            { minute: "10", text: "Défi : Tapez dans vos mains. Tous doivent imiter. Le plus lent vous donne 1 tour." },
+            { minute: "12", text: "Défi : Parlez avec une voix de monstre pendant 2 min. Chaque oubli vous fait perdre 1 tour. Si vous tenez, gagnez 3 tours." },
+            { minute: "14", text: "Défi : Le joueur le plus proche de la cuisine gagne 2 tours (vous compris). Si c’est vous, gagnez 3 tours." },
+            { minute: "16", text: "Défi : Levez-vous. Le dernier debout perd 2 tours. Si vous restez debout, gagnez 2 tours." },
+            { minute: "18", text: "Défi : Éteignez la lumière 1 min. Si quelqu’un rallume avant, il perd 3 tours et vous gagnez 2 tours." },
+            { minute: "20", text: "Défi : Yeux fermés, désignez un traître. Ce joueur perd 2 tours. Si le groupe valide, gagnez 3 tours." },
+            { minute: "22", text: "Défi : Chaise musicale. Vous restez assis. Le dernier assis perd 2 tours, vous gagnez 2 tours." },
+            { minute: "24", text: "Défi : Cachez un objet dans une main. Les autres pointent. Chaque erreur vous rapporte 1 tour." },
+            { minute: "26", text: "Défi : Tous ferment les yeux, vous vous déplacez sans bruit. Le premier à vous localiser gagne 1 tour (pas vous)." },
+            { minute: "28", text: "Défi : Pause figée. Tous immobiles. Le premier qui bouge perd 2 tours. Vous gagnez 2 tours s’il y a un fautif." },
+            { minute: "30", text: "Défi : Inversez le sens du jeu. Si la majorité l’accepte, gagnez 2 tours. Sinon, perdez 1 tour." },
+            { minute: "32", text: "Défi : Votez pour le joueur le plus silencieux. Si c’est vous, gagnez 3 tours. Sinon, gagnez 1 tour." },
+            { minute: "34", text: "Défi : Frappez à la fenêtre. Tout le monde doit se figer 5 sec. Ceux qui bougent perdent 1 tour, vous gagnez 1 tour." },
+            { minute: "36", text: "Défi : Faites passer un objet jusqu’à la minute 39. Le détenteur à 39 perd 2 tours, vous gagnez 2 tours." },
+            { minute: "38", text: "Défi : Criez une phrase terrifiante. Si personne ne rit, gagnez 2 tours. Si on rit, reculez de 3 cases." },
+            { minute: "40", text: "Défi : Sautez à cloche-pied 10 secondes. Réussi : gagnez 2 tours. Échec : perdez 1 tour." },
+
+            // ---------- Minutes 41 à 60 : récompenses en CLÉS ----------
+            { minute: "41", text: "Défi : Imitez le cri du Seigneur. Vote : si vous êtes le plus effrayant, gagnez 3 Clés." },
+            { minute: "43", text: "Défi : Racontez une blague qui fait rire au moins 2 joueurs. Récompense : 2 Clés. Échec : perdez 1 Clé." },
+            { minute: "45", text: "Défi : Comptez de 10 à 1 sans erreur. Si personne ne se trompe (vous y compris), gagnez 2 Clés. Si vous vous trompez, perdez 1 Clé." },
+            { minute: "47", text: "Défi : Dites « Je suis le maître des clés ». Les autres répondent « Oui maître ». Le dernier perd 1 Clé, vous gagnez 1 Clé." },
+            { minute: "49", text: "Défi : Fermez les yeux, comptez 10 sec. Les autres cachent un objet. Retrouvez-le en 30 sec. Succès : 3 Clés. Échec : -2 Clés." },
+            { minute: "51", text: "Défi : Lancez deux dés. Si vous faites un double, gagnez 2 Clés. Sinon, perdez 1 Clé." },
+            { minute: "53", text: "Défi : Avancez votre pion à la case de sortie la plus proche. Vous gagnez 1 Clé, mais donnez 1 Clé au joueur le plus éloigné." },
+            { minute: "55", text: "Défi : Lisez cette carte à voix basse. Celui qui dit « Quoi ? » vous donne 2 Clés." },
+            { minute: "56", text: "Défi : Criez tous ensemble. Si un voisin réagit, vous gagnez 3 Clés, les autres perdent 1 Clé." },
+            { minute: "57", text: "Défi : Désignez un joueur qui doit ramper vers vous. S’il refuse, il va en prison et vous gagnez 2 Clés." },
+            { minute: "58", text: "Défi : Regardez fixement les autres d’un air menaçant. Le premier à sourire perd 2 Clés, vous gagnez 2 Clés." },
+            { minute: "59", text: "Défi : Comptez à rebours 10→1 en groupe. Si personne ne se trompe, gagnez 3 Clés. Sinon, perdez 1 Clé." },
+            { minute: "60", text: "Apparition du Seigneur ! Tous les joueurs perdent 2 Clés, sauf ceux dans la Vraie Commune." }
         ];
 
         const chanceCards = [
@@ -205,7 +207,6 @@
             { text: "Jackpot : si vous avez exactement 6 Clés, doublez-les." }
         ];
 
-        // Cartes Destin : deux issues possibles (pile / face)
         const destinCards = [
             { pile: "Pile : perdez 2 Clés.", face: "Face : perdez 4 Clés." },
             { pile: "Pile : gagnez 2 Clés.", face: "Face : avancez de 2 cases." },
@@ -307,13 +308,11 @@
             } else if (selectedType === 'destin') {
                 html += `<div class="card-type">📜 Carte DESTIN</div>`;
                 html += `<div class="card-text">Lancez la pièce pour connaître votre sort !</div>`;
-                // Stocker temporairement les données de la carte pour le bouton
                 actionArea.dataset.pile = card.pile;
                 actionArea.dataset.face = card.face;
             }
             display.innerHTML = html;
 
-            // Bouton "Cacher" pour Temps et Chance
             if (selectedType !== 'destin') {
                 const hideBtn = document.createElement('button');
                 hideBtn.className = 'hide-btn';
@@ -321,7 +320,6 @@
                 hideBtn.addEventListener('click', clearCardDisplay);
                 actionArea.appendChild(hideBtn);
             } else {
-                // Bouton Lancer la pièce pour Destin
                 const coinBtn = document.createElement('button');
                 coinBtn.className = 'coin-btn';
                 coinBtn.textContent = '🪙 Lancer la pièce';
@@ -329,9 +327,7 @@
                     const isPile = Math.random() < 0.5;
                     const resultText = isPile ? 'PILE' : 'FACE';
                     const effect = isPile ? this.parentElement.dataset.pile : this.parentElement.dataset.face;
-                    // Afficher le résultat dans la zone d'action
                     this.parentElement.innerHTML = `<div class="result-text">Résultat : <strong>${resultText}</strong> → ${effect}</div>`;
-                    // Ajouter un bouton Cacher
                     const hideBtn = document.createElement('button');
                     hideBtn.className = 'hide-btn';
                     hideBtn.textContent = '🙈 Cacher la carte';
