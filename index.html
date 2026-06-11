@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atmosfear – Le Seigneur des Clés</title>
+    <!-- Police d'ambiance -->
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Special+Elite&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            background-image: radial-gradient(circle at 20% 30%, #1a0a0a 0%, #050505 90%);
+            color: #e0d7c6;
+            font-family: 'Special Elite', cursive;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Creepster', cursive;
+            font-size: 3rem;
+            color: #b22222;
+            text-shadow: 0 0 15px #b22222, 0 0 30px #800000;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .selector {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .selector label {
+            background: #1c1c1c;
+            border: 2px solid #444;
+            border-radius: 12px;
+            padding: 12px 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+            color: #ccc;
+            box-shadow: 0 0 10px rgba(0,0,0,0.6);
+        }
+
+        .selector input[type="radio"] {
+            display: none;
+        }
+
+        .selector input[type="radio"]:checked + span {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .selector label:has(input:checked) {
+            background: #2c0000;
+            border-color: #b22222;
+            box-shadow: 0 0 20px #b2222280;
+            color: #fff;
+        }
+
+        .draw-btn {
+            background: #b22222;
+            border: none;
+            border-radius: 50px;
+            padding: 18px 40px;
+            font-family: 'Creepster', cursive;
+            font-size: 1.8rem;
+            color: #fff;
+            cursor: pointer;
+            letter-spacing: 2px;
+            box-shadow: 0 0 25px #b2222280;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 25px 0;
+        }
+
+        .draw-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px #ff4444;
+        }
+
+        .draw-btn:active {
+            transform: scale(0.98);
+        }
+
+        .card-display {
+            min-height: 200px;
+            width: 90%;
+            max-width: 550px;
+            margin: 30px auto;
+            background: #1c1c1c;
+            border: 3px solid #b22222;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 0 40px rgba(178,34,34,0.4), inset 0 0 20px #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.4s;
+        }
+
+        .card-type {
+            font-family: 'Creepster', cursive;
+            font-size: 2rem;
+            color: #b22222;
+            text-shadow: 0 0 15px #b22222;
+            margin-bottom: 10px;
+        }
+
+        .card-minute {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #d4af37;
+            margin-bottom: 15px;
+        }
+
+        .card-text {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: #f0e6d2;
+        }
+
+        .empty-message {
+            color: #888;
+            font-style: italic;
+            font-size: 1.5rem;
+        }
+
+        .counters {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .counter {
+            background: #111;
+            border: 1px solid #444;
+            border-radius: 12px;
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.7);
+        }
+
+        .counter span {
+            font-weight: bold;
+            color: #d4af37;
+        }
+
+        .reset-buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .reset-btn {
+            background: #333;
+            border: 1px solid #666;
+            border-radius: 30px;
+            padding: 12px 25px;
+            font-family: 'Special Elite', cursive;
+            font-size: 1rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .reset-btn:hover {
+            background: #b22222;
+            border-color: #b22222;
+        }
+
+        .footer {
+            margin-top: 40px;
+            color: #555;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Atmosfear</h1>
+    <div class="subtitle">Le Seigneur des Clés – Pioche Interdite</div>
+
+    <!-- Sélecteur de type -->
+    <div class="selector">
+        <label>
+            <input type="radio" name="cardType" value="temps" checked>
+            <span>⏳ Temps</span>
+        </label>
+        <label>
+            <input type="radio" name="cardType" value="chance">
+            <span>🎲 Chance</span>
+        </label>
+        <label>
+            <input type="radio" name="cardType" value="destin">
+            <span>📜 Destin</span>
+        </label>
+    </div>
+
+    <!-- Bouton pioche -->
+    <button class="draw-btn" id="drawButton">🔑 Piocher</button>
+
+    <!-- Zone d'affichage de la carte -->
+    <div class="card-display" id="cardDisplay">
+        <div class="card-text">Choisissez un type et piochez...</div>
+    </div>
+
+    <!-- Compteurs de piles -->
+    <div class="counters">
+        <div class="counter">⏳ Temps : <span id="countTemps">35</span>/35</div>
+        <div class="counter">🎲 Chance : <span id="countChance">35</span>/35</div>
+        <div class="counter">📜 Destin : <span id="countDestin">35</span>/35</div>
+    </div>
+
+    <!-- Boutons de réinitialisation -->
+    <div class="reset-buttons">
+        <button class="reset-btn" id="resetCurrent">🔄 Réinitialiser la pile actuelle</button>
+        <button class="reset-btn" id="resetAll">💀 Réinitialiser toutes les piles</button>
+    </div>
+
+    <div class="footer">Atmosphère, cris et clés perdues garantis.</div>
+
+    <script>
+        // =================== DONNÉES DES CARTES ===================
+        const tempsCards = [
+            { minute: "58", text: "Criez le plus fort possible. Le joueur qui sursaute ou rit perd 1 Clé." },
+            { minute: "54", text: "Criez « La clé est à moi ! ». Si personne ne rit, gagnez 1 Clé. Si quelqu'un rit, il perd 1 Clé." },
+            { minute: "50", text: "Frappez trois coups sous la table. Le dernier joueur à regarder sous la table perd 2 Clés." },
+            { minute: "47", text: "Fixez le joueur à votre gauche sans parler. Le premier qui parle ou détourne les yeux donne 1 Clé à l'autre." },
+            { minute: "44", text: "Gagnez un tour supplémentaire immédiatement. Jouez deux fois de suite." },
+            { minute: "41", text: "« Silence de mort ». Jusqu'à la prochaine carte Temps, personne ne doit parler. Le contrevenant perd 3 Clés." },
+            { minute: "38", text: "Tapez dans vos mains. Tous les autres doivent vous imiter. Le plus lent vous donne 1 Clé." },
+            { minute: "35", text: "Désignez un joueur qui doit parler avec une voix de monstre pendant 2 minutes. Chaque fois qu'il oublie, il perd 1 Clé." },
+            { minute: "32", text: "Le joueur le plus proche de la cuisine (ou d'un point d'eau) gagne 2 Clés." },
+            { minute: "30", text: "Levez-vous. Le dernier debout perd 2 Clés et recule de 3 cases." },
+            { minute: "28", text: "Éteignez la lumière. Jouez dans le noir 1 minute. Celui qui rallume ou utilise un téléphone perd 3 Clés." },
+            { minute: "25", text: "Désignez secrètement un « traître » en montrant un joueur du doigt les yeux fermés. Ce joueur perd 2 Clés." },
+            { minute: "22", text: "Tous les joueurs changent de place (chaise musicale). Vous restez à la vôtre. Le dernier assis perd 2 Clés." },
+            { minute: "19", text: "Imitez le cri du Seigneur des Clés. Le moins convaincant (vote à main levée) perd 1 Clé." },
+            { minute: "16", text: "Racontez une blague. Si personne ne rit, vous perdez 2 Clés. Si quelqu'un rit, il vous donne 1 Clé." },
+            { minute: "14", text: "Comptez à rebours de 10 à 1. Celui qui se trompe perd 2 Clés. Si personne ne se trompe, vous gagnez 2 Clés." },
+            { minute: "12", text: "Dites « Je suis le maître des clés ». Les autres doivent répondre « Oui, maître ». Le dernier perd 1 Clé." },
+            { minute: "10", text: "Fermez les yeux et comptez jusqu'à 10. Les autres cachent un objet. Retrouvez-le en 30 secondes : si oui, gagnez 2 Clés, sinon perdez-en 1." },
+            { minute: "8", text: "Avancez votre pion jusqu'à la case de sortie la plus proche, mais donnez 2 Clés au joueur le plus éloigné." },
+            { minute: "6", text: "Criez tous ensemble. Si un bruit extérieur répond (voisin, rue), tout le monde perd 1 Clé sauf vous qui gagnez 2 Clés." },
+            { minute: "4", text: "Regardez fixement les autres avec un air menaçant. Le premier à sourire ou détourner le regard perd 2 Clés." },
+            { minute: "2", text: "Si vous avez moins de 4 Clés, gagnez 2 Clés. Sinon, perdez 1 Clé." },
+            { minute: "0", text: "Apparition du Seigneur des Clés ! Tous les joueurs perdent 2 Clés, sauf ceux dans la « Vraie Commune » (case safe)." },
+            { minute: "55", text: "Le Seigneur gratte à la fenêtre (faites du bruit). Tout le monde doit se figer 5 secondes. Les contrevenants perdent 2 Clés." },
+            { minute: "42", text: "Faites passer un objet de main en main. Quand la minute 39 sonne, celui qui tient l'objet perd 2 Clés." },
+            { minute: "33", text: "Le sens du jeu s'inverse (horaire ↔ anti-horaire) jusqu'à la fin de la partie." },
+            { minute: "27", text: "Le joueur le plus silencieux depuis le début de la partie gagne 2 Clés (décision du groupe)." },
+            { minute: "21", text: "Cachez une de vos Clés (ou un objet) dans votre main. Les autres pointent la main qui la contient. Ceux qui se trompent vous donnent 1 Clé." },
+            { minute: "17", text: "Tous ferment les yeux. Vous vous déplacez sans bruit. Le premier qui devine où vous êtes gagne 1 Clé." },
+            { minute: "13", text: "Pause figée. Appuyez sur pause (chrono). Personne ne bouge. Le premier qui bouge perd 2 Clés. Redémarrez ensuite." },
+            { minute: "9", text: "Vous jouez avec deux pions ce tour. Choisissez lequel avancer à la fin du déplacement." },
+            { minute: "7", text: "Lisez cette carte à voix très basse. Le joueur qui dit « Quoi ? » ou fait répéter vous donne 2 Clés." },
+            { minute: "5", text: "Désignez un joueur. Il doit venir vous toucher l'épaule en rampant. S'il refuse, il va directement dans la « Fausse Commune » (prison)." },
+            { minute: "1", text: "Tous les joueurs comptent à rebours de 10 à 1 avec vous. Le premier qui se trompe perd 3 Clés." },
+            { minute: "59", text: "Lisez le parchemin d'introduction. Tous les joueurs gagnent 1 Clé." }
+        ];
+
+        const chanceCards = [
+            { text: "Avancez de 4 cases." },
+            { text: "Reculez de 4 cases." },
+            { text: "Lancez deux dés au lieu d'un ce tour. Choisissez le résultat que vous voulez." },
+            { text: "Lancez un dé. Si le résultat est pair, avancez d'autant ; si impair, reculez d'autant." },
+            { text: "Téléportez-vous sur la prochaine case Clé devant vous." },
+            { text: "Votre prochain déplacement vous fait reculer au lieu d'avancer." },
+            { text: "Gagnez 2 Clés." },
+            { text: "Perdez 2 Clés." },
+            { text: "Piochez une carte au hasard dans la main d'un adversaire. Gardez-la." },
+            { text: "Ignorez le prochain obstacle ou porte fermée." },
+            { text: "Prenez 2 Clés à la banque. Vous devrez les rendre à la prochaine carte Temps, sinon perdez 4 Clés." },
+            { text: "Échangez votre position avec celle d'un adversaire de votre choix (sur le plateau)." },
+            { text: "La prochaine fois qu'un joueur ramasse une Clé, elle arrive dans votre main à la place. (Placez cette carte devant vous)." },
+            { text: "Annulez la prochaine carte Destin qui vous vise. Défaussez cette carte à ce moment." },
+            { text: "Choisissez la valeur de votre prochain dé entre 1 et 6." },
+            { text: "Tous les joueurs passent leur main de cartes (Chance + Destin) au voisin de gauche, sans les regarder." },
+            { text: "Donnez 1 Clé à chaque autre joueur. Si vous ne pouvez pas, perdez un tour." },
+            { text: "Lancez un dé. Volez ce nombre de Clés au joueur le plus riche (maximum ce qu'il possède)." },
+            { text: "Lancez un dé : 1-3 perdez ce nombre de Clés, 4-6 gagnez ce nombre de Clés." },
+            { text: "Piochez la première carte Destin. Si c'est un malus, défaussez-la sans effet et gagnez 2 Clés. Si bonus, appliquez-le." },
+            { text: "Le prochain joueur qui passe sur une case rouge recule de 4 cases." },
+            { text: "Sautez par-dessus le joueur immédiatement devant vous. S'il n'y a personne, avancez de 3 cases." },
+            { text: "Si vous êtes dans la Fausse Commune, sortez gratuitement. Sinon, gardez cette carte pour plus tard." },
+            { text: "Échangez votre nombre de Clés avec un adversaire (vous choisissez lequel)." },
+            { text: "Donnez 2 Clés à la banque. Si vous ne les avez pas, reculez de 5 cases." },
+            { text: "Avancez du double du résultat du dé à votre prochain lancer." },
+            { text: "Reculez de 2 cases. Tous les autres joueurs reculent de 1 case." },
+            { text: "Défaussez 2 cartes Chance de votre main (si vous les avez) pour gagner 3 Clés." },
+            { text: "Regardez les 3 premières cartes de la pioche Chance. Prenez-en une, remettez les deux autres dessus dans l'ordre de votre choix." },
+            { text: "Si vous tombez exactement sur la case d'un autre joueur, volez-lui 2 Clés." },
+            { text: "Les cartes Temps ne vous affectent pas jusqu'à votre prochain tour." },
+            { text: "Sacrifiez 1 Clé : gagnez 3 Clés au début de votre prochain tour." },
+            { text: "Avancez ou reculez d'1 case (votre choix) et gagnez 1 Clé." },
+            { text: "Perdez 1 Clé. Piochez une carte Destin et appliquez-la immédiatement." },
+            { text: "Lancez un dé. Si vous obtenez 6, gagnez 6 Clés. Sinon, perdez le nombre de Clés indiqué." }
+        ];
+
+        const destinCards = [
+            { text: "Allez directement en prison (Fausse Commune). Ne passez pas par la case départ, ne touchez pas de clés." },
+            { text: "Pile ou Face – Lancez une pièce : pile = vous perdez 2 Clés, face = vous perdez 4 Clés." },
+            { text: "Pile ou Face – Lancez une pièce : pile = vous gagnez 2 Clés, face = vous gagnez 0 et avancez de 2 cases." },
+            { text: "Reculez de 6 cases." },
+            { text: "Le Seigneur des Clés attaque ! Perdez 1 Clé et passez votre prochain tour." },
+            { text: "Vous êtes enchaîné au joueur le plus proche. À votre prochain tour, vous devez suivre exactement le même déplacement que lui (s'il bouge avant vous)." },
+            { text: "Perdez la moitié de vos Clés (arrondi au supérieur)." },
+            { text: "Piochez une carte au hasard dans la main d'un adversaire et défaussez-la." },
+            { text: "Si vous êtes en prison, sortez gratuitement. Sinon, échangez votre place avec un joueur qui y est (ou allez en prison si personne)." },
+            { text: "Donnez 1 Clé à chaque autre joueur." },
+            { text: "Échangez votre total de Clés avec le joueur qui en a le moins." },
+            { text: "Le joueur à votre droite choisit la direction de votre prochain déplacement (avant/arrière)." },
+            { text: "Jouez votre prochain tour en regardant le plateau à l'envers. Si vous vous trompez de chemin, allez en prison." },
+            { text: "Lancez un dé : si pair, perdez ce nombre de Clés ; si impair, reculez d'autant." },
+            { text: "Passez votre prochain tour sans bouger ni parler. Les autres peuvent vous voler 1 Clé en passant à côté." },
+            { text: "Jusqu'à votre prochain tour, si quelqu'un vous adresse la parole, il perd 2 Clés. (Gardez cette carte visible)." },
+            { text: "Défaussez toutes vos Clés sauf une." },
+            { text: "Lancez le dé : 1-2 = allez en prison, 3-4 = reculez de 3 cases, 5-6 = gagnez 2 Clés." },
+            { text: "Défaussez une carte Chance de votre main ou perdez 3 Clés." },
+            { text: "Mélangez votre main de cartes Chance/Destin, face cachée. Piochez-en la moitié (arrondi au supérieur) et défaussez-les." },
+            { text: "Glissez de 4 cases vers l'avant, mais ne déclenchez aucun effet de case." },
+            { text: "Tous les autres pions sont attirés de 2 cases vers vous." },
+            { text: "Comptez jusqu'à 5 dans votre tête. Si quelqu'un parle avant, il subit cette carte à votre place (perte de 3 Clés)." },
+            { text: "Cachez votre visage avec les mains. Le premier qui baisse les mains perd 3 Clés." },
+            { text: "Prenez la Clé la plus proche de vous, même si elle est derrière vous ou gardée." },
+            { text: "Pile ou Face – Pile : allez en prison. Face : libérez un prisonnier (ou gagnez 1 Clé si personne)." },
+            { text: "Fredonnez l'air du Seigneur. Si un autre joueur continue la mélodie, vous perdez tous les deux 2 Clés." },
+            { text: "Reculez jusqu'à la case située juste derrière le joueur le plus en retard." },
+            { text: "Vous devez 3 Clés au prochain joueur qui vous adresse la parole." },
+            { text: "Votre prochain lancer de dé est divisé par 2 (arrondi au supérieur)." },
+            { text: "Lancez une de vos Clés à l'autre bout de la pièce. Allez la chercher à quatre pattes (ou perdez 3 Clés)." },
+            { text: "Le Seigneur des Clés vous suit : avancez son pion de 2 cases vers vous." },
+            { text: "Gagnez 4 Clés maintenant, mais la prochaine carte Destin que vous piocherez sera obligatoirement appliquée (même bonus)." },
+            { text: "Éteignez la lumière 10 secondes. Si un joueur crie ou rit, il perd 3 Clés." },
+            { text: "Racontez une histoire qui vous a vraiment fait peur, ou allez en prison." }
+        ];
+
+        // =================== GESTION DES PILES ===================
+        // On crée une copie mélangée pour chaque type
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        let piles = {
+            temps: shuffleArray([...tempsCards]),
+            chance: shuffleArray([...chanceCards]),
+            destin: shuffleArray([...destinCards])
+        };
+
+        const initialCounts = {
+            temps: tempsCards.length,
+            chance: chanceCards.length,
+            destin: destinCards.length
+        };
+
+        // =================== MISE À JOUR AFFICHAGE ===================
+        function updateCounters() {
+            document.getElementById('countTemps').textContent = piles.temps.length;
+            document.getElementById('countChance').textContent = piles.chance.length;
+            document.getElementById('countDestin').textContent = piles.destin.length;
+        }
+
+        function resetPile(type) {
+            if (type === 'all') {
+                piles.temps = shuffleArray([...tempsCards]);
+                piles.chance = shuffleArray([...chanceCards]);
+                piles.destin = shuffleArray([...destinCards]);
+            } else {
+                piles[type] = shuffleArray([...eval(type + 'Cards')]);
+            }
+            updateCounters();
+            document.getElementById('cardDisplay').innerHTML = '<div class="card-text">Pile réinitialisée. Piochez une nouvelle carte...</div>';
+        }
+
+        // =================== PIOCHER UNE CARTE ===================
+        function drawCard() {
+            const selectedType = document.querySelector('input[name="cardType"]:checked').value;
+            const pile = piles[selectedType];
+            const display = document.getElementById('cardDisplay');
+
+            if (pile.length === 0) {
+                display.innerHTML = `<div class="empty-message">☠️ Pile ${selectedType} épuisée !<br>Réinitialisez-la.</div>`;
+                return;
+            }
+
+            // Piocher la carte du dessus (fin du tableau, après mélange)
+            const card = pile.pop();
+            updateCounters();
+
+            // Afficher la carte piochée
+            let html = '';
+            if (selectedType === 'temps') {
+                html += `<div class="card-type">⏳ Carte TEMPS</div>`;
+                html += `<div class="card-minute">Minute ${card.minute}</div>`;
+            } else if (selectedType === 'chance') {
+                html += `<div class="card-type">🎲 Carte CHANCE</div>`;
+            } else {
+                html += `<div class="card-type">📜 Carte DESTIN</div>`;
+            }
+            html += `<div class="card-text">${card.text}</div>`;
+            display.innerHTML = html;
+
+            // Effet sonore (optionnel, simple vibration si supporté)
+            if (navigator.vibrate) navigator.vibrate(100);
+        }
+
+        // =================== ÉVÉNEMENTS ===================
+        document.getElementById('drawButton').addEventListener('click', drawCard);
+        document.getElementById('resetCurrent').addEventListener('click', () => {
+            const type = document.querySelector('input[name="cardType"]:checked').value;
+            resetPile(type);
+        });
+        document.getElementById('resetAll').addEventListener('click', () => resetPile('all'));
+
+        // Initialisation des compteurs
+        updateCounters();
+    </script>
+</body>
+</html>
