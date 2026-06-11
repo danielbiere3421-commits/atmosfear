@@ -251,7 +251,7 @@
         <div class="card-text">Choisissez un type et piochez...</div>
     </div>
 
-    <!-- Bouton pour cacher la carte (apparaît après tirage) -->
+    <!-- Bouton pour cacher la carte -->
     <div id="hideButtonArea" style="text-align:center;"></div>
 
     <!-- Compteurs de piles -->
@@ -314,7 +314,8 @@
             { text: "Reculez de 4 cases." },
             { text: "Lancez deux dés au lieu d'un ce tour. Choisissez le résultat que vous voulez." },
             { text: "Lancez un dé. Si le résultat est pair, avancez d'autant ; si impair, reculez d'autant." },
-            { text: "Téléportez-vous sur la prochaine case Clé devant vous." },
+            // MODIFIÉE : suppression de "case Clé"
+            { text: "Téléportez-vous sur n'importe quelle case libre du plateau et gagnez 1 Clé." },
             { text: "Votre prochain déplacement vous fait reculer au lieu d'avancer." },
             { text: "Gagnez 2 Clés." },
             { text: "Perdez 2 Clés." },
@@ -425,7 +426,6 @@
             clearCardDisplay();
         }
 
-        // Efface l'affichage de la carte et le bouton "Cacher"
         function clearCardDisplay() {
             document.getElementById('cardDisplay').innerHTML = '<div class="card-text">Choisissez un type et piochez...</div>';
             document.getElementById('hideButtonArea').innerHTML = '';
@@ -437,7 +437,6 @@
             const pile = piles[selectedType];
             const display = document.getElementById('cardDisplay');
 
-            // On supprime l'éventuel bouton "Cacher" existant
             document.getElementById('hideButtonArea').innerHTML = '';
 
             if (pile.length === 0) {
@@ -445,11 +444,9 @@
                 return;
             }
 
-            // Piocher
             const card = pile.pop();
             updateCounters();
 
-            // Affichage de la carte
             let html = '';
             if (selectedType === 'temps') {
                 html += `<div class="card-type">⏳ Carte TEMPS</div>`;
@@ -462,7 +459,6 @@
             html += `<div class="card-text">${card.text}</div>`;
             display.innerHTML = html;
 
-            // Ajouter le bouton "Cacher la carte"
             const hideArea = document.getElementById('hideButtonArea');
             const hideBtn = document.createElement('button');
             hideBtn.className = 'hide-btn';
@@ -472,7 +468,6 @@
             });
             hideArea.appendChild(hideBtn);
 
-            // Vibration si supportée
             if (navigator.vibrate) navigator.vibrate(100);
         }
 
@@ -484,7 +479,6 @@
         });
         document.getElementById('resetAll').addEventListener('click', () => resetPile('all'));
 
-        // Initialisation
         updateCounters();
     </script>
 </body>
