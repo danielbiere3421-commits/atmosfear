@@ -97,7 +97,10 @@
 
     <h1>Atmosfear</h1>
     <div class="subtitle">Le Seigneur des Clés – Pioche Interdite</div>
-    <div class="chrono-note">⏱️ Le temps s'écoule de 0 à 60 min. Piochez une carte <strong>Temps</strong> à la minute indiquée.<br>🔑 Les Clés s'obtiennent uniquement en rassemblant <strong>deux moitiés de Clé</strong> (gérées par les joueurs).</div>
+    <div class="chrono-note">
+        ⏱️ Chrono de 0 à 60 min. Piochez une carte <strong>Temps</strong> à la minute indiquée.<br>
+        🔑 <strong>Moitiés de clé :</strong> 2 moitiés = 1 clé. Aucun échange entre joueurs. Les gains sont strictement personnels.
+    </div>
 
     <div class="selector">
         <label><input type="radio" name="cardType" value="temps" checked><span>⏳ Temps</span></label>
@@ -127,9 +130,9 @@
     <div class="footer">Atmosphère, cris et clés perdues garantis.</div>
 
     <script>
-        // =================== CARTES TEMPS (minutes 0 à 60) ===================
+        // =================== CARTES TEMPS (0 à 60 min) ===================
         const tempsCards = [
-            // ---------- 0 à 40 min : récompenses en TOURS ----------
+            // 0-40 min : récompenses en TOURS (pas de clés)
             { minute: "0", text: "Défi : Criez le plus fort possible. Si quelqu’un sursaute, gagnez 1 tour." },
             { minute: "1", text: "Défi : Lisez le parchemin d’intro. Tous gagnent 1 tour. Vous gagnez 1 tour supplémentaire." },
             { minute: "2", text: "Défi : Frappez trois coups sous la table. Le dernier à regarder perd 1 tour, vous gagnez 2 tours." },
@@ -153,20 +156,20 @@
             { minute: "38", text: "Défi : Criez une phrase terrifiante. Si personne ne rit, gagnez 2 tours. Si on rit, reculez de 3 cases." },
             { minute: "40", text: "Défi : Sautez à cloche-pied 10 secondes. Réussi : gagnez 2 tours. Échec : perdez 1 tour." },
 
-            // ---------- 41 à 60 min : récompenses en MOITIÉS DE CLÉ ----------
-            { minute: "41", text: "Défi : Imitez le cri du Seigneur. Vote : si vous êtes le plus effrayant, gagnez 2 moitiés de Clé." },
-            { minute: "43", text: "Défi : Racontez une blague qui fait rire au moins 2 joueurs. Récompense : 1 moitié de Clé. Échec : reculez de 3 cases." },
-            { minute: "45", text: "Défi : Comptez de 10 à 1 sans erreur. Si personne ne se trompe (vous y compris), gagnez 1 moitié de Clé. Si vous vous trompez, perdez 1 tour." },
-            { minute: "47", text: "Défi : Dites « Je suis le maître des clés ». Les autres répondent « Oui maître ». Le dernier perd 1 tour, vous gagnez 1 moitié de Clé." },
-            { minute: "49", text: "Défi : Fermez les yeux, comptez 10 sec. Les autres cachent un objet. Retrouvez-le en 30 sec. Succès : 2 moitiés de Clé. Échec : -1 tour." },
-            { minute: "51", text: "Défi : Lancez deux dés. Si vous faites un double, gagnez 1 moitié de Clé. Sinon, perdez 1 tour." },
-            { minute: "53", text: "Défi : Avancez votre pion à la case de sortie la plus proche. Gagnez 1 moitié de Clé, mais donnez 1 tour au joueur le plus éloigné." },
-            { minute: "55", text: "Défi : Lisez cette carte à voix basse. Celui qui dit « Quoi ? » vous donne 1 moitié de Clé." },
-            { minute: "56", text: "Défi : Criez tous ensemble. Si un voisin réagit, vous gagnez 2 moitiés de Clé, les autres perdent 1 tour." },
-            { minute: "57", text: "Défi : Désignez un joueur qui doit ramper vers vous. S’il refuse, il va en prison et vous gagnez 1 moitié de Clé." },
-            { minute: "58", text: "Défi : Regardez fixement les autres d’un air menaçant. Le premier à sourire perd 2 tours, vous gagnez 1 moitié de Clé." },
-            { minute: "59", text: "Défi : Comptez à rebours 10→1 en groupe. Si personne ne se trompe, gagnez 2 moitiés de Clé. Sinon, perdez 1 tour." },
-            { minute: "60", text: "Apparition du Seigneur ! Tous les joueurs perdent 1 moitié de Clé, sauf ceux dans la Vraie Commune." }
+            // 41-60 min : récompenses en MOITIÉS DE CLÉ (personnelles, jamais d'échange)
+            { minute: "41", text: "Défi : Imitez le cri du Seigneur. Vote : si vous êtes le plus effrayant, gagnez 2 moitiés de clé." },
+            { minute: "43", text: "Défi : Racontez une blague qui fait rire au moins 2 joueurs. Récompense : 1 moitié de clé. Échec : reculez de 3 cases." },
+            { minute: "45", text: "Défi : Comptez de 10 à 1 sans erreur. Si personne ne se trompe (vous y compris), gagnez 1 moitié de clé. Si vous vous trompez, perdez 1 tour." },
+            { minute: "47", text: "Défi : Dites « Je suis le maître des clés ». Les autres répondent « Oui maître ». Le dernier perd 1 tour, vous gagnez 1 moitié de clé." },
+            { minute: "49", text: "Défi : Fermez les yeux, comptez 10 sec. Les autres cachent un objet. Retrouvez-le en 30 sec. Succès : 2 moitiés de clé. Échec : -1 tour." },
+            { minute: "51", text: "Défi : Lancez deux dés. Si vous faites un double, gagnez 1 moitié de clé. Sinon, perdez 1 tour." },
+            { minute: "53", text: "Défi : Avancez votre pion à la case de sortie la plus proche. Gagnez 1 moitié de clé." },
+            { minute: "55", text: "Défi : Lisez cette carte à voix basse. Celui qui dit « Quoi ? » vous donne 1 moitié de clé (pas d'échange, c'est vous qui la gagnez)." },
+            { minute: "56", text: "Défi : Criez tous ensemble. Si un voisin réagit, vous gagnez 2 moitiés de clé, les autres perdent 1 tour." },
+            { minute: "57", text: "Défi : Désignez un joueur qui doit ramper vers vous. S’il refuse, il va en prison et vous gagnez 1 moitié de clé." },
+            { minute: "58", text: "Défi : Regardez fixement les autres d’un air menaçant. Le premier à sourire perd 2 tours, vous gagnez 1 moitié de clé." },
+            { minute: "59", text: "Défi : Comptez à rebours 10→1 en groupe. Si personne ne se trompe, gagnez 2 moitiés de clé. Sinon, perdez 1 tour." },
+            { minute: "60", text: "Apparition du Seigneur ! Tous les joueurs perdent 1 moitié de clé, sauf ceux dans la Vraie Commune." }
         ];
 
         const chanceCards = [
@@ -176,74 +179,74 @@
             { text: "Lancez un dé : pair = avancez d’autant, impair = reculez." },
             { text: "Téléportez-vous sur n’importe quelle case libre et gagnez 1 tour." },
             { text: "Votre prochain déplacement se fait en arrière." },
-            { text: "Gagnez 1 moitié de Clé." },
-            { text: "Perdez 1 moitié de Clé." },
+            { text: "Vous avez trouvé une moitié de clé." },
+            { text: "Perdez 1 moitié de clé (si vous en avez)." },
             { text: "Piochez une carte Destin et subissez-en les effets." },
             { text: "Ignorez le prochain obstacle (porte fermée, piège)." },
-            { text: "Empruntez 1 moitié de Clé à la banque. Rendez-la à la prochaine carte Temps, sinon perdez 2 tours." },
+            { text: "Empruntez 1 moitié de clé à la banque. Rendez-la à la prochaine carte Temps, sinon perdez 2 tours." },
             { text: "Avancez de 1d6 cases supplémentaires." },
             { text: "Protection : annulez une carte Destin qui vous vise." },
             { text: "Choisissez la valeur de votre prochain dé (1 à 6)." },
-            { text: "Défi : sautez à cloche-pied 10 secondes. Réussi : gagnez 1 moitié de Clé." },
+            { text: "Défi : sautez à cloche-pied 10 secondes. Réussi : gagnez 1 moitié de clé." },
             { text: "Regardez les 3 premières cartes Chance, prenez-en une." },
             { text: "Perdez 1 tour." },
             { text: "Gagnez 1 tour supplémentaire." },
-            { text: "Mystère : lancez un dé, sur 6 gagnez 2 moitiés de Clé, sinon perdez 1 tour." },
+            { text: "Mystère : lancez un dé, sur 6 gagnez 2 moitiés de clé, sinon perdez 1 tour." },
             { text: "Soif de savoir : piochez une carte Destin. Si c’est un bonus, doublez-le (ex : 2 moitiés deviennent 4)." },
             { text: "Case rouge maudite : le prochain joueur qui passe sur une case rouge recule de 4." },
             { text: "Saut de grenouille : dépassez le joueur devant vous." },
             { text: "Carte sortie de prison (gardez-la)." },
             { text: "Changez de direction : reculez de 3 cases maintenant." },
-            { text: "Donnez 1 moitié de Clé à la banque pour recevoir 2 moitiés au prochain tour." },
+            { text: "Donnez 1 moitié de clé à la banque pour recevoir 2 moitiés au prochain tour." },
             { text: "Boost : avancez du double du dé ce tour." },
             { text: "Freinage : tous les autres reculent de 1 case." },
             { text: "Sacrifiez 1 tour pour piocher 3 cartes Chance." },
-            { text: "Aubaine : gagnez 1 moitié de Clé et avancez de 2 cases." },
-            { text: "Malchance : perdez 1 moitié de Clé et reculez de 2 cases." },
+            { text: "Aubaine : gagnez 1 moitié de clé et avancez de 2 cases." },
+            { text: "Malchance : perdez 1 moitié de clé et reculez de 2 cases." },
             { text: "Événement : le Seigneur gronde, avancez son pion de 2 cases." },
-            { text: "Rituel : gagnez 1 moitié de Clé si vous êtes le seul à fermer les yeux." },
-            { text: "Offrande : sacrifiez 1 tour pour gagner 2 moitiés de Clé." },
+            { text: "Rituel : gagnez 1 moitié de clé si vous êtes le seul à fermer les yeux." },
+            { text: "Offrande : sacrifiez 1 tour pour gagner 2 moitiés de clé." },
             { text: "Retournement : votre prochain déplacement sera à l’envers." },
-            { text: "Jackpot : si vous avez exactement 2 moitiés de Clé, échangez-les immédiatement contre 1 Clé." }
+            { text: "Jackpot : si vous avez exactement 2 moitiés de clé, échangez-les immédiatement contre 1 clé (selon les règles, sans interaction)." }
         ];
 
         const destinCards = [
-            { pile: "Pile : perdez 1 moitié de Clé.", face: "Face : perdez 2 moitiés de Clé." },
-            { pile: "Pile : gagnez 1 moitié de Clé.", face: "Face : avancez de 2 cases." },
+            { pile: "Pile : perdez 1 moitié de clé.", face: "Face : perdez 2 moitiés de clé." },
+            { pile: "Pile : gagnez 1 moitié de clé.", face: "Face : avancez de 2 cases." },
             { pile: "Pile : allez en prison.", face: "Face : libérez un prisonnier (ou gagnez 1 tour)." },
             { pile: "Pile : reculez de 3 cases.", face: "Face : avancez de 3 cases." },
             { pile: "Pile : le Seigneur attaque (-1 tour).", face: "Face : le Seigneur vous ignore (+1 tour)." },
-            { pile: "Pile : perdez la moitié de vos moitiés de Clé.", face: "Face : doublez vos moitiés de Clé (max +2)." },
+            { pile: "Pile : perdez la moitié de vos moitiés de clé.", face: "Face : doublez vos moitiés de clé (max +2)." },
             { pile: "Pile : défaussez une carte Chance.", face: "Face : piochez une carte Chance." },
-            { pile: "Pile : donnez 1 moitié de Clé à chaque adversaire.", face: "Face : recevez 1 moitié de Clé de chaque adversaire." },
-            { pile: "Pile : échangez vos moitiés de Clé avec le joueur qui en a le plus.", face: "Face : échangez avec le joueur qui en a le moins." },
+            { pile: "Pile : perdez 1 tour.", face: "Face : gagnez 1 tour." },
+            { pile: "Pile : votre total de moitiés de clé est réduit à zéro.", face: "Face : vous recevez 2 moitiés de clé." },
             { pile: "Pile : votre prochain déplacement est dicté par le joueur à droite.", face: "Face : vous choisissez la direction de tout le monde." },
             { pile: "Pile : jouez le prochain tour à l'envers.", face: "Face : jouez un tour normal mais doublez vos gains de moitiés." },
             { pile: "Pile : lancez un dé et perdez le résultat en tours.", face: "Face : lancez un dé et gagnez le résultat en tours." },
             { pile: "Pile : statue : passez un tour sans bouger.", face: "Face : vitesse : jouez deux tours de suite." },
-            { pile: "Pile : murmures : si on vous parle, vous perdez 1 moitié de Clé.", face: "Face : éloquence : si on vous parle, gagnez 1 moitié de Clé." },
-            { pile: "Pile : ruine : défaussez toutes vos moitiés de Clé.", face: "Face : trésor : gagnez 2 moitiés de Clé." },
-            { pile: "Pile : roue du destin : 1-2 prison, 3-4 reculez 3, 5-6 -1 tour.", face: "Face : roue de la fortune : 1-2 sortie prison, 3-4 +3 cases, 5-6 +1 moitié de Clé." },
+            { pile: "Pile : murmures : si on vous parle, vous perdez 1 moitié de clé.", face: "Face : éloquence : si on vous parle, gagnez 1 moitié de clé." },
+            { pile: "Pile : ruine : défaussez toutes vos moitiés de clé.", face: "Face : trésor : gagnez 2 moitiés de clé." },
+            { pile: "Pile : roue du destin : 1-2 prison, 3-4 reculez 3, 5-6 -1 tour.", face: "Face : roue de la fortune : 1-2 sortie prison, 3-4 +3 cases, 5-6 +1 moitié de clé." },
             { pile: "Pile : sacrifiez une carte ou perdez 2 tours.", face: "Face : offrande acceptée : piochez 2 cartes." },
             { pile: "Pile : amnésie : défaussez la moitié de votre main.", face: "Face : mémoire : reprenez une carte défaussée." },
             { pile: "Pile : glissade : avancez de 4 cases sans effets.", face: "Face : escalier : reculez de 4 cases sans effets." },
             { pile: "Pile : trou noir : attirez les pions de 2 cases.", face: "Face : répulsion : éloignez les pions de 2 cases." },
-            { pile: "Pile : si quelqu'un parle dans les 5 sec, il perd 1 moitié de Clé.", face: "Face : si personne ne parle, vous gagnez 1 moitié de Clé." },
-            { pile: "Pile : cache-cache : le premier qui baisse les mains perd 1 moitié de Clé.", face: "Face : tous ferment les yeux, vous gagnez 1 moitié de Clé." },
-            { pile: "Pile : prenez 1 moitié de Clé au joueur le plus proche.", face: "Face : donnez 1 moitié de Clé au joueur le plus éloigné." },
-            { pile: "Pile : allez en prison.", face: "Face : restez libre et gagnez 1 moitié de Clé." },
-            { pile: "Pile : fredonnez, si un autre continue, vous perdez 1 moitié de Clé.", face: "Face : chantez, si personne ne suit, gagnez 1 moitié de Clé." },
+            { pile: "Pile : si quelqu'un parle dans les 5 sec, il perd 1 moitié de clé.", face: "Face : si personne ne parle, vous gagnez 1 moitié de clé." },
+            { pile: "Pile : cache-cache : le premier qui baisse les mains perd 1 moitié de clé.", face: "Face : tous ferment les yeux, vous gagnez 1 moitié de clé." },
+            { pile: "Pile : vous perdez 1 moitié de clé.", face: "Face : vous gagnez 1 moitié de clé." },
+            { pile: "Pile : allez en prison.", face: "Face : restez libre et gagnez 1 moitié de clé." },
+            { pile: "Pile : fredonnez, si un autre continue, vous perdez 1 moitié de clé.", face: "Face : chantez, si personne ne suit, gagnez 1 moitié de clé." },
             { pile: "Pile : reculez jusqu'au joueur le plus en retard.", face: "Face : avancez jusqu'au joueur le plus en avance." },
-            { pile: "Pile : le prochain joueur qui vous adresse la parole vous prend 1 moitié de Clé.", face: "Face : le prochain joueur qui vous ignore vous donne 1 moitié de Clé." },
+            { pile: "Pile : le prochain joueur qui vous adresse la parole vous prend 1 moitié de clé.", face: "Face : le prochain joueur qui vous ignore vous donne 1 moitié de clé." },
             { pile: "Pile : votre prochain dé est divisé par 2.", face: "Face : votre prochain dé est multiplié par 2 (max 6)." },
-            { pile: "Pile : lancez une moitié de Clé à l'autre bout de la pièce. Allez la chercher à 4 pattes ou perdez 1 tour.", face: "Face : recevez 1 moitié de Clé gratuite." },
+            { pile: "Pile : lancez une moitié de clé à l'autre bout de la pièce. Allez la chercher à 4 pattes ou perdez 1 tour.", face: "Face : recevez 1 moitié de clé gratuite." },
             { pile: "Pile : le Seigneur avance de 2 cases vers vous.", face: "Face : le Seigneur recule de 2 cases." },
-            { pile: "Pile : pacte : gagnez 2 moitiés de Clé mais piochez un autre Destin.", face: "Face : refusez : perdez 1 tour mais annulez ce Destin." },
-            { pile: "Pile : noir total : rieurs perdent 1 moitié de Clé.", face: "Face : lumière : tout le monde gagne 1 moitié de Clé." },
-            { pile: "Pile : vérité : racontez une peur ou allez en prison.", face: "Face : mensonge : inventez une peur, si on vous croit, gagnez 1 moitié de Clé." }
+            { pile: "Pile : pacte : gagnez 2 moitiés de clé mais piochez un autre Destin.", face: "Face : refusez : perdez 1 tour mais annulez ce Destin." },
+            { pile: "Pile : noir total : rieurs perdent 1 moitié de clé.", face: "Face : lumière : tout le monde gagne 1 moitié de clé." },
+            { pile: "Pile : vérité : racontez une peur ou allez en prison.", face: "Face : mensonge : inventez une peur, si on vous croit, gagnez 1 moitié de clé." }
         ];
 
-        // =================== GESTION DES PILES (inchangée) ===================
+        // Gestion des piles (inchangée)
         function shuffleArray(arr) {
             for (let i = arr.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
