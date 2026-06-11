@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atmosfear – Le Seigneur des Clés</title>
-    <!-- Police d'ambiance -->
     <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Special+Elite&display=swap" rel="stylesheet">
     <style>
         * {
@@ -14,8 +13,8 @@
         }
 
         body {
-            background: #0a0a0a;
-            background-image: radial-gradient(circle at 20% 30%, #1a0a0a 0%, #050505 90%);
+            background: #0a0514;
+            background-image: radial-gradient(circle at 20% 30%, #1c0a30 0%, #08041a 90%);
             color: #e0d7c6;
             font-family: 'Special Elite', cursive;
             min-height: 100vh;
@@ -30,15 +29,15 @@
         h1 {
             font-family: 'Creepster', cursive;
             font-size: 3rem;
-            color: #b22222;
-            text-shadow: 0 0 15px #b22222, 0 0 30px #800000;
+            color: #9b30ff;
+            text-shadow: 0 0 15px #9b30ff, 0 0 30px #4b0082;
             margin-bottom: 10px;
             letter-spacing: 3px;
         }
 
         .subtitle {
             font-size: 1.2rem;
-            color: #aaa;
+            color: #b0a0c0;
             margin-bottom: 30px;
             font-style: italic;
         }
@@ -52,7 +51,7 @@
         }
 
         .selector label {
-            background: #1c1c1c;
+            background: #1c1c2a;
             border: 2px solid #444;
             border-radius: 12px;
             padding: 12px 25px;
@@ -73,14 +72,14 @@
         }
 
         .selector label:has(input:checked) {
-            background: #2c0000;
-            border-color: #b22222;
-            box-shadow: 0 0 20px #b2222280;
+            background: #2a0033;
+            border-color: #9b30ff;
+            box-shadow: 0 0 20px #9b30ff80;
             color: #fff;
         }
 
         .draw-btn {
-            background: #b22222;
+            background: #6a0dad;
             border: none;
             border-radius: 50px;
             padding: 18px 40px;
@@ -89,14 +88,14 @@
             color: #fff;
             cursor: pointer;
             letter-spacing: 2px;
-            box-shadow: 0 0 25px #b2222280;
+            box-shadow: 0 0 25px #9b30ff80;
             transition: transform 0.2s, box-shadow 0.2s;
             margin: 25px 0;
         }
 
         .draw-btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 40px #ff4444;
+            box-shadow: 0 0 40px #b266ff;
         }
 
         .draw-btn:active {
@@ -107,12 +106,12 @@
             min-height: 200px;
             width: 90%;
             max-width: 550px;
-            margin: 30px auto;
-            background: #1c1c1c;
-            border: 3px solid #b22222;
+            margin: 30px auto 10px;
+            background: #1c1c2a;
+            border: 3px solid #9b30ff;
             border-radius: 20px;
             padding: 25px;
-            box-shadow: 0 0 40px rgba(178,34,34,0.4), inset 0 0 20px #000;
+            box-shadow: 0 0 40px rgba(155,48,255,0.4), inset 0 0 20px #000;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -123,8 +122,8 @@
         .card-type {
             font-family: 'Creepster', cursive;
             font-size: 2rem;
-            color: #b22222;
-            text-shadow: 0 0 15px #b22222;
+            color: #9b30ff;
+            text-shadow: 0 0 15px #9b30ff;
             margin-bottom: 10px;
         }
 
@@ -145,6 +144,26 @@
             color: #888;
             font-style: italic;
             font-size: 1.5rem;
+        }
+
+        .hide-btn {
+            background: #333;
+            border: 1px solid #9b30ff;
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-family: 'Special Elite', cursive;
+            font-size: 1rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: background 0.3s, box-shadow 0.3s;
+            margin-top: 10px;
+        }
+
+        .hide-btn:hover {
+            background: #6a0dad;
+            border-color: #9b30ff;
+            box-shadow: 0 0 15px #9b30ff80;
+            color: #fff;
         }
 
         .counters {
@@ -190,8 +209,10 @@
         }
 
         .reset-btn:hover {
-            background: #b22222;
-            border-color: #b22222;
+            background: #6a0dad;
+            border-color: #9b30ff;
+            box-shadow: 0 0 15px #9b30ff80;
+            color: #fff;
         }
 
         .footer {
@@ -229,6 +250,9 @@
     <div class="card-display" id="cardDisplay">
         <div class="card-text">Choisissez un type et piochez...</div>
     </div>
+
+    <!-- Bouton pour cacher la carte (apparaît après tirage) -->
+    <div id="hideButtonArea" style="text-align:center;"></div>
 
     <!-- Compteurs de piles -->
     <div class="counters">
@@ -362,7 +386,6 @@
         ];
 
         // =================== GESTION DES PILES ===================
-        // On crée une copie mélangée pour chaque type
         function shuffleArray(arr) {
             for (let i = arr.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -399,7 +422,13 @@
                 piles[type] = shuffleArray([...eval(type + 'Cards')]);
             }
             updateCounters();
-            document.getElementById('cardDisplay').innerHTML = '<div class="card-text">Pile réinitialisée. Piochez une nouvelle carte...</div>';
+            clearCardDisplay();
+        }
+
+        // Efface l'affichage de la carte et le bouton "Cacher"
+        function clearCardDisplay() {
+            document.getElementById('cardDisplay').innerHTML = '<div class="card-text">Choisissez un type et piochez...</div>';
+            document.getElementById('hideButtonArea').innerHTML = '';
         }
 
         // =================== PIOCHER UNE CARTE ===================
@@ -408,16 +437,19 @@
             const pile = piles[selectedType];
             const display = document.getElementById('cardDisplay');
 
+            // On supprime l'éventuel bouton "Cacher" existant
+            document.getElementById('hideButtonArea').innerHTML = '';
+
             if (pile.length === 0) {
                 display.innerHTML = `<div class="empty-message">☠️ Pile ${selectedType} épuisée !<br>Réinitialisez-la.</div>`;
                 return;
             }
 
-            // Piocher la carte du dessus (fin du tableau, après mélange)
+            // Piocher
             const card = pile.pop();
             updateCounters();
 
-            // Afficher la carte piochée
+            // Affichage de la carte
             let html = '';
             if (selectedType === 'temps') {
                 html += `<div class="card-type">⏳ Carte TEMPS</div>`;
@@ -430,7 +462,17 @@
             html += `<div class="card-text">${card.text}</div>`;
             display.innerHTML = html;
 
-            // Effet sonore (optionnel, simple vibration si supporté)
+            // Ajouter le bouton "Cacher la carte"
+            const hideArea = document.getElementById('hideButtonArea');
+            const hideBtn = document.createElement('button');
+            hideBtn.className = 'hide-btn';
+            hideBtn.textContent = '🙈 Cacher la carte';
+            hideBtn.addEventListener('click', () => {
+                clearCardDisplay();
+            });
+            hideArea.appendChild(hideBtn);
+
+            // Vibration si supportée
             if (navigator.vibrate) navigator.vibrate(100);
         }
 
@@ -442,7 +484,7 @@
         });
         document.getElementById('resetAll').addEventListener('click', () => resetPile('all'));
 
-        // Initialisation des compteurs
+        // Initialisation
         updateCounters();
     </script>
 </body>
